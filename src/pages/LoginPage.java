@@ -26,10 +26,12 @@ public class LoginPage extends BasicPage {
 	}
 
 	public void login(String email, String password) {
-		this.getEmail().sendKeys(Keys.CONTROL + "a", Keys.DELETE);
-		this.getPassword().sendKeys(Keys.CONTROL + "a", Keys.DELETE);
+		this.getEmail().clear();
 		this.getEmail().sendKeys(email);
+
+		this.getPassword().clear();
 		this.getPassword().sendKeys(password);
-		this.getLoginSubmit().click();
+
+		this.getPassword().sendKeys(Keys.ENTER);
 	}
 }
