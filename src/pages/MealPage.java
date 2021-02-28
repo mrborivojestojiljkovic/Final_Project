@@ -1,7 +1,5 @@
 package pages;
 
-import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -14,23 +12,23 @@ public class MealPage extends BasicPage {
 		super(driver, waiter, js);
 	}
 
-	public WebElement getMealsInput() {
-		return this.driver.findElement(By.linkText("Meals"));
+	public WebElement getAddToCartButton() {
+		return this.driver.findElement(By.xpath("//*[@class=\"product-description\"]/div[3]/div[2]/a"));
 	}
 
-	public List<WebElement> getMeals() {
-		return this.driver.findElements(By.id("listing"));
+	public WebElement getQuantityInput() {
+		return this.driver.findElement(By.name("product_qty"));
 	}
 
-	public void addToCart(int quantity) {
-		String quant = String.valueOf(quantity);
-		WebElement quantityField = this.driver.findElement(By.name("product_qty"));
-		quantityField.clear();
-		quantityField.sendKeys(quant);
-		this.driver.findElement(By.className("js-proceedtoAddInCart")).click();
+	public void addMealToCart(String num) throws InterruptedException {
+		String quantity = String.valueOf(num);
+		this.getQuantityInput().clear();
+		this.getQuantityInput().sendKeys(quantity);
+		Thread.sleep(2000);
+		this.getAddToCartButton().click();
 	}
 
-	public WebElement getFavoriteButton() {
-		return this.driver.findElement(By.className("itemfav"));
+	public void addToFavourites() {
+		this.driver.findElement(By.className("favourite")).click();
 	}
 }

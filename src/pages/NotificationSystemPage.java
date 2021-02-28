@@ -22,8 +22,8 @@ public class NotificationSystemPage extends BasicPage {
 		return this.getElementMessage().getText();
 	}
 
-	public void notificationDisappears() {
-		WebElement systemMessage = driver.findElement(By.xpath("//*[contains(@class, 'system_message')]"));
-		this.waiter.until(ExpectedConditions.attributeToBe(systemMessage, "style", "display: none;"));
+	public boolean notificationDisappears() {
+		WebElement element = this.driver.findElement(By.xpath("//*[contains(@class, 'system_message')]"));
+		return this.waiter.until(ExpectedConditions.attributeContains(element, "style", "display: none;"));
 	}
 }

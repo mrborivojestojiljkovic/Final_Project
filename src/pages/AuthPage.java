@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class AuthPage extends BasicPage {
@@ -14,7 +13,7 @@ public class AuthPage extends BasicPage {
 	}
 
 	public WebElement getUserId() {
-		return driver.findElement(By.xpath("//*[@id=\"header\"]/div[2]/div/div[2]/div[2]/ul/li/a"));
+		return driver.findElement(By.xpath("//li[@class=\\\"filled \\\"]/a"));
 	}
 
 	public WebElement getMyAccount() {
@@ -26,8 +25,7 @@ public class AuthPage extends BasicPage {
 	}
 
 	public void logout() {
-		this.js.executeScript("arguments[0].click();", this.getUserId());
-		this.waiter.until(ExpectedConditions.elementToBeClickable(getLogout()));
-		this.js.executeScript("arguments[0].click();", this.getLogout());
+		this.getUserId().click();
+		this.getLogout().click();
 	}
 }

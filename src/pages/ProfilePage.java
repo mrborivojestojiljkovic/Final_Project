@@ -1,8 +1,5 @@
 package pages;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -17,64 +14,66 @@ public class ProfilePage extends BasicPage {
 	}
 
 	public WebElement getFirstName() {
-		return driver.findElement(By.xpath("//*[@name='user_first_name']"));
+		return driver.findElement(By.name("user_first_name"));
 	}
 
 	public WebElement getLastName() {
-		return driver.findElement(By.xpath("//*[@name='user_last_name']"));
+		return driver.findElement(By.name("user_last_name"));
 	}
 
 	public WebElement getAddress() {
-		return driver.findElement(By.xpath("//*[@name='user_address']"));
+		return driver.findElement(By.name("user_address"));
 	}
 
 	public WebElement getPhoneNumber() {
-		return driver.findElement(By.xpath("//*[@name='user_phone']"));
+		return driver.findElement(By.name("user_phone"));
 	}
 
 	public WebElement getZipCode() {
-		return driver.findElement(By.xpath("//*[@name='user_zip']"));
+		return driver.findElement(By.name("user_zip"));
 	}
 
-	public void getCountry(String country) throws InterruptedException {
-		WebElement countryField = driver.findElement(By.xpath("//*[@id=\"user_country_id\"]"));
+	public Select getCountry() {
+		WebElement countryField = driver.findElement(By.name("user_country_id"));
 		Select countrySelect = new Select(countryField);
-		countrySelect.selectByVisibleText(country);
-		Thread.sleep(2000);
+		return countrySelect;
 	}
 
-	public void getState(String state) throws InterruptedException {
-		WebElement stateField = driver.findElement(By.xpath("//*[@id=\"user_state_id\"]"));
+	public Select getState() {
+		WebElement stateField = this.driver.findElement(By.name("user_state_id"));
 		Select stateSelect = new Select(stateField);
-		stateSelect.selectByVisibleText(state);
-		Thread.sleep(2000);
+		return stateSelect;
 	}
 
-	public void getCity(String city) throws InterruptedException {
-		WebElement cityField = driver.findElement(By.xpath("//*[@id=\"user_city\"]"));
+	public Select getCity() {
+		WebElement cityField = this.driver.findElement(By.name("user_city"));
 		Select citySelect = new Select(cityField);
-		citySelect.selectByVisibleText(city);
-		Thread.sleep(2000);
+		return citySelect;
 	}
 
 	public WebElement getSaveButton() {
-		return driver.findElement(By.xpath("//*[@id=\"profileInfoFrm\"]/div[5]/div/fieldset/input"));
+		return driver.findElement(By.xpath("//*[@id=\\\"profileInfoFrm\\\"]/div[5]/div/fieldset/input"));
 	}
 
-	public WebElement getUploadImageBtn() throws InterruptedException {
-		return driver.findElement(By.className("ion-camera"));
+	public WebElement getUploadImageBtn() {
+		return driver.findElement(By.xpath("//a[@title=\"Uplaod\"]"));
 	}
 
-	public void uploadImage(String image) throws InterruptedException, IOException {
-		js.executeScript("arguments[0].click();", this.getUploadImageBtn());
-		WebElement uploadImage = this.driver.findElement(By.xpath("//input[@name = 'file']"));
-		String imagePath = new File(image).getCanonicalPath();
-		uploadImage.sendKeys(imagePath);
+	public WebElement getRemoveButton() {
+		return this.driver.findElement(By.xpath("//a[@title=\"Remove\"]"));
 	}
 
-	public void removeImage() {
-		WebElement remove = this.driver.findElement(By.className("remove"));
-		this.js.executeScript("arguments[0].click()", remove);
+	public WebElement getUpload() {
+		return this.driver.findElement(By.xpath("//*[@type=\"file\"]"));
+	}
+
+	public void uploadPicture(String picture) {
+		this.js.executeScript("arguments[0].click();", this.getUploadImageBtn());
+		this.getUpload().sendKeys(picture);
+	}
+
+	public void removeProfilePhoto() {
+		this.js.executeScript("arguments[0].click();", this.getRemoveButton());
 	}
 
 	public void updateProfileInformation(String firstName, String lastName, String address, String phoneNum,
@@ -91,9 +90,9 @@ public class ProfilePage extends BasicPage {
 		this.getAddress().sendKeys(address);
 		this.getPhoneNumber().sendKeys(phoneNum);
 		this.getZipCode().sendKeys(zipCode);
-		this.getCountry(country);
-		this.getState(state);
-		this.getCity(city);
+		this.getCountry().selectByVisibleText(country);
+		this.getState().selectByVisibleText(state);
+		this.getCity().selectByVisibleText(city);
 
 		this.getSaveButton().click();
 	}
